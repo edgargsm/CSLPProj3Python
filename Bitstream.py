@@ -4,7 +4,7 @@ class BitStream:
 
     def __init__(self, file, access):
         self.file = open(file, access)
-        self.byte = 0
+        self.byte = bytes(0)
         self.count = 0
         self.access = access
 
@@ -12,19 +12,19 @@ class BitStream:
         if self.access!="rb":
             print("Não foi possivel ler bit porque o acesso ao ficheiro foi de escrita")
             return None
-            pass
 
         
         if self.count < 0:
             self.byte = self.file.read(1)
+            #print(bin(int.from_bytes(self.byte, "little")))
             if self.byte == None:
                 print("Ficheiro já foi completamente lido.")
                 self.file.close()
                 return None
-                pass
             self.count = 7
         
-        bit = (self.byte >> self.count) & 1
+        
+        bit = (int.from_bytes(self.byte, "big") >> self.count) & 1
         self.count -= 1
 
         return bit
@@ -47,7 +47,6 @@ class BitStream:
     def endWrite(self):
         if self.access!="wb":
             print("O modo de acesso não foi o de escrita.")
-            pass
 
         if self.byte != 0:
             self.file.write(self.byte)
@@ -58,13 +57,13 @@ class BitStream:
     def readBits(self, n):
         if self.access!="rb":
             print("Não foi possivel ler bit porque o acesso ao ficheiro foi de escrita")
-            pass
+            return
 
         arr = []
 
         for i in range(n):
             bit = self.readBit()
-            if not bit:
+            if bit==None:
                 print("Não foi possivel ler o numero de bits pedidos")
                 break
             arr.append(bit)
@@ -79,5 +78,3 @@ class BitStream:
 
         for i in arr:
             self.writeBit(i)
-
-        pass
