@@ -6,6 +6,8 @@ class BitStream:
         self.file = open(file, access)
         self.byte = bytes(0)
         self.count = -1
+        if access == "wb":
+            self.count = 7
         self.access = access
 
     def readBit(self):
@@ -16,8 +18,8 @@ class BitStream:
         
         if self.count < 0:
             self.byte = self.file.read(1)
-            print(bin(int.from_bytes(self.byte, "little")))
-            if self.byte == None:
+            #print(bin(int.from_bytes(self.byte, "little")))
+            if not self.byte:
                 print("Ficheiro já foi completamente lido.")
                 self.file.close()
                 return None
@@ -35,20 +37,22 @@ class BitStream:
             return None
 
         if self.count < 0:
-            self.file.write(self.byte)
+            print("Dump no ficheiro..")
+            self.file.write(bytes(self.byte))
             self.byte = 0
             self.count = 7
-
-        self.byte = self.byte | (bit << self.count)
+            
+        self.byte = int.from_bytes(self.byte, "little") | (bit << self.count)
+        self.byte = self.byte.to_bytes(1, "big")
         self.count -= 1
-
         pass
 
     def endWrite(self):
         if self.access!="wb":
             print("O modo de acesso não foi o de escrita.")
 
-        if self.byte != 0:
+        if self.count != 7:
+            #print(self.byte)
             self.file.write(self.byte)
         
         self.file.close()
