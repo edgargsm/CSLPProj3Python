@@ -5,7 +5,7 @@ class BitStream:
     def __init__(self, file, access):
         self.file = open(file, access)
         self.byte = bytes(0)
-        self.count = 0
+        self.count = -1
         self.access = access
 
     def readBit(self):
@@ -16,7 +16,7 @@ class BitStream:
         
         if self.count < 0:
             self.byte = self.file.read(1)
-            #print(bin(int.from_bytes(self.byte, "little")))
+            print(bin(int.from_bytes(self.byte, "little")))
             if self.byte == None:
                 print("Ficheiro já foi completamente lido.")
                 self.file.close()
@@ -24,7 +24,7 @@ class BitStream:
             self.count = 7
         
         
-        bit = (int.from_bytes(self.byte, "big") >> self.count) & 1
+        bit = (int.from_bytes(self.byte, "little") >> self.count) & 1
         self.count -= 1
 
         return bit
