@@ -5,38 +5,47 @@ class Golomb:
     def __init__(self, m):
         self.m = m
         self.b = math.ceil(math.log2(m))
+        self.l = self.b-1
 
 
     def encode(self, n):
+        result = ""
         q = int(n/self.m)
         r = n - q*self.m
         l = self.b-1
         if r >= 2**self.b - self.m:
             r = r + 2**self.b - self.m
             l = self.b
-        unary_q = self.unariCode(q)
-        unary_length = q+1
-        result = (unary_q << l) | r
+        for i in range(q):
+            result = result+'1'
+        result = result+'0'
+        #unary_q = self.unariCode(q)
+        stringr = bin(r)[2:]
+        stringr = '0'*(l-len(stringr))+stringr
+        result = result + stringr
+        #unary_length = q+1
+        #result = (unary_q << l) | r
         #print("R -> ",r)
-        #print("Q -> ",unary_q)
+        #print("Q -> ",q)
         #print("b -> ",self.b)
-        return result, unary_length+l
-
-
-    def decode(self, encoded_num, length):
-        unary_length = 0
-        l = length
-        while True:
-            l -= 1
-            if ((encoded_num >> l) & 1) :
-                
-
-        pass
-
-    def unariCode(self, n):
-        result = 0
-        for i in range(n):
-            result = (result | 1) << 1
+        #, unary_length+l
         return result
-            
 
+
+    def decode(self, encoded_num):
+        q = 0
+        i = 0
+        while encoded_num[i]!='0':
+            q+=1
+            i+=1
+        i+=1
+        r = encoded_num[i:]
+        l = len(r)
+        r = int(r, 2)
+        if(l==self.b):
+            r = r - 2**self.b + self.m
+        n = r+q*self.m
+        #print("q-> ",q)
+        #print("r-> ",r)
+        return n
+        pass
