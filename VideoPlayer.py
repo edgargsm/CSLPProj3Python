@@ -50,16 +50,16 @@ while(True):
         u = np.reshape(new_u, (height, width))
         v = np.reshape(new_v, (height, width))
     if formato == '420':
-        u = np.reshape(u,(height/2,width/2))
-        v = np.reshape(v,(height/2,width/2))
-        new_u = np.array((height,width),dtype="uint8")
-        new_v = np.array((height,width),dtype="uint8")
+        u = np.reshape(u,(height//2,width//2))
+        v = np.reshape(v,(height//2,width//2))
+        new_u = np.zeros((height,width),dtype="uint8")
+        new_v = np.zeros((height,width),dtype="uint8")
         for l in range(0,height,2):
             for c in range(0,width,2):
-                new_u[l,c] = u[l/2,c/2] 
-                new_u[l,c+1] = u[l/2,c/2]
-                new_v[l,c] = v[l/2,c/2] 
-                new_v[l,c+1] = v[l/2,c/2] 
+                new_u[l,c] = u[l//2,c//2] 
+                new_u[l,c+1] = u[l//2,c//2]
+                new_v[l,c] = v[l//2,c//2] 
+                new_v[l,c+1] = v[l//2,c//2] 
             new_u[l+1] = new_u[l]
             new_v[l+1] = new_v[l]
         u = new_u
