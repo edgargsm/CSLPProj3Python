@@ -40,17 +40,20 @@ while(True):
         u = np.reshape(u, (height,width))
         v = np.reshape(v, (height,width))
     if formato == '422':
-        new_u = np.array((0,),dtype="uint8")
-        new_v = np.array((0,),dtype="uint8")
-        for n in range(len(u)):
-            np.append(new_u,[u[n]])
-            np.append(new_u,[u[n]])
-            np.append(new_v,[v[n]])
-            np.append(new_v,[v[n]])
-        u = np.reshape(new_u, (height, width))
-        v = np.reshape(new_v, (height, width))
+        u = np.repeat(u,2)
+        u = np.reshape(u, (height, width))
+        v = np.repeat(v,2)
+        v = np.reshape(v, (height, width))
     if formato == '420':
-        u = np.reshape(u,(height//2,width//2))
+        u = np.repeat(u,2)
+        u = np.reshape(u, (height/2, width))
+        v = np.repeat(v,2)
+        v = np.reshape(v, (height/2, width))
+        u = np.concatenate((u,u),1)
+        v = np.concatenate((v,v),1)
+        u = np.reshape(u, (height, width))
+        v = np.reshape(v, (height, width))
+        '''u = np.reshape(u,(height//2,width//2))
         v = np.reshape(v,(height//2,width//2))
         new_u = np.zeros((height,width),dtype="uint8")
         new_v = np.zeros((height,width),dtype="uint8")
@@ -61,10 +64,7 @@ while(True):
                 new_v[l,c] = v[l//2,c//2] 
                 new_v[l,c+1] = v[l//2,c//2] 
             new_u[l+1] = new_u[l]
-            new_v[l+1] = new_v[l]
-        u = new_u
-        v = new_v
-
+            new_v[l+1] = new_v[l]'''
 
     frameexp = cv2.cvtColor(cv2.merge((y,u,v)),cv2.COLOR_YUV2BGR)
     frameyuv = cv2.merge((y,u,v))
