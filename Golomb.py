@@ -9,6 +9,8 @@ class Golomb:
 
 
     def encode(self, n):
+        if n<0:
+            n=int(-2*n)
         result = ""
         q = int(n/self.m)
         r = n - q*self.m
@@ -20,7 +22,9 @@ class Golomb:
             result = result+'1'
         result = result+'0'
         #unary_q = self.unariCode(q)
+        #print(result)
         stringr = bin(r)[2:]
+        #print((r))
         stringr = '0'*(l-len(stringr))+stringr
         result = result + stringr
         #unary_length = q+1
@@ -47,5 +51,7 @@ class Golomb:
         n = r+q*self.m
         #print("q-> ",q)
         #print("r-> ",r)
+        if n%2==0:
+            n = int(n/-2)
         return n
         pass

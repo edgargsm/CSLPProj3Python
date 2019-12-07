@@ -2,8 +2,13 @@
 
 class BitStream:
 
-    def __init__(self, file, access):
+    def __init__(self, file, access, init_message = None, read_FirstLine = None):
         self.file = open(file, access)
+        self.first_line = None
+        if access=="wb" and init_message is not None:
+            self.file.write(init_message.encode('utf-8'))
+        if access=="rb" and read_FirstLine:
+            self.first_line = self.file.readline()
         self.byte = bytes(0)
         self.count = -1
         if access == "wb":
@@ -18,7 +23,7 @@ class BitStream:
         
         if self.count < 0:
             self.byte = self.file.read(1)
-            #print(bin(int.from_bytes(self.byte, "little")))
+            print(bin(int.from_bytes(self.byte, "little")))
             if not self.byte:
                 print("Ficheiro já foi completamente lido.")
                 self.file.close()
@@ -37,9 +42,9 @@ class BitStream:
             return None
 
         if self.count < 0:
-            print("Dump no ficheiro..")
+            #print("Dump no ficheiro..")
             self.file.write(bytes(self.byte))
-            self.byte = 0
+            self.byte = bytes(0)
             self.count = 7
             
         self.byte = int.from_bytes(self.byte, "little") | (bit << self.count)
