@@ -26,17 +26,17 @@ class Frame:
                     b = 127
                     c = 127
                 elif col-1<0:
-                    a = self.y[lin,col-1]
+                    a = int(self.y[lin,col-1])
                     b = 127
                     c = 127
                 elif lin-1<0:
                     a = 127
-                    b = self.y[lin-1,col]
+                    b = int(self.y[lin-1,col])
                     c = 127
                 else:
-                    a = self.y[lin,col-1]
-                    b = self.y[lin-1,col]
-                    c = self.y[lin-1,col-1]
+                    a = int(self.y[lin,col-1])
+                    b = int(self.y[lin-1,col])
+                    c = int(self.y[lin-1,col-1])
                 if c >= max([a,b]):
                     pred = min([a,b])
                 elif c <= min([a,b]):
@@ -53,17 +53,17 @@ class Frame:
                     b = 127
                     c = 127
                 elif col-1<0:
-                    a = self.u[lin,col-1]
+                    a = int(self.u[lin,col-1])
                     b = 127
                     c = 127
                 elif lin-1<0:
                     a = 127
-                    b = self.u[lin-1,col]
+                    b = int(self.u[lin-1,col])
                     c = 127
                 else:
-                    a = self.u[lin,col-1]
-                    b = self.u[lin-1,col]
-                    c = self.u[lin-1,col-1]
+                    a = int(self.u[lin,col-1])
+                    b = int(self.u[lin-1,col])
+                    c = int(self.u[lin-1,col-1])
                 if c >= max([a,b]):
                     pred = min([a,b])
                 elif c <= min([a,b]):
@@ -80,17 +80,17 @@ class Frame:
                     b = 127
                     c = 127
                 elif col-1<0:
-                    a = self.v[lin,col-1]
+                    a = int(self.v[lin,col-1])
                     b = 127
                     c = 127
                 elif lin-1<0:
                     a = 127
-                    b = self.v[lin-1,col]
+                    b = int(self.v[lin-1,col])
                     c = 127
                 else:
-                    a = self.v[lin,col-1]
-                    b = self.v[lin-1,col]
-                    c = self.v[lin-1,col-1]
+                    a = int(self.v[lin,col-1])
+                    b = int(self.v[lin-1,col])
+                    c = int(self.v[lin-1,col-1])
                 if c >= max([a,b]):
                     pred = min([int(a),int(b)])
                 elif c <= min([int(a),int(b)]):
