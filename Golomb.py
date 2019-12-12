@@ -11,6 +11,8 @@ class Golomb:
     def encode(self, n):
         if n<0:
             n=int(-2*n)
+        elif n>0:
+            n = 2*n-1
         result = ""
         q = int(n/self.m)
         r = n - q*self.m
@@ -53,5 +55,7 @@ class Golomb:
         #print("r-> ",r)
         if n%2==0:
             n = int(n/-2)
+        else:
+            n = (n+1)/2
         return n
         pass
