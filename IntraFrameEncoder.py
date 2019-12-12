@@ -33,7 +33,7 @@ while True:
         for line in range(encodedFrame[f].shape[0]):
             for col in range(encodedFrame[f].shape[1]):
                 pix = int(encodedFrame[f][line,col])
-                #print(pix)
+                print(pix)
                 g_code = golomb.encode(pix)
                 #print(g_code)
                 for b in range(len(g_code)):
