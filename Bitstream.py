@@ -9,7 +9,7 @@ class BitStream:
             self.file.write(init_message.encode('utf-8'))
         if access=="rb" and read_FirstLine:
             self.first_line = self.file.readline()
-        self.byte = bytes(0)
+        self.byte = 0
         self.count = -1
         if access == "wb":
             self.count = 7
@@ -44,13 +44,12 @@ class BitStream:
         if self.count < 0:
             #print("Dump no ficheiro..")
             self.file.write(bytes(self.byte))
-            self.byte = bytes(0)
+            self.byte = 0
             self.count = 7
-            
-        self.byte = int.from_bytes(self.byte, "little") | (bit << self.count)
-        self.byte = self.byte.to_bytes(1, "big")
+
+        self.byte = self.byte | (bit << self.count)
+        #self.byte = self.byte.to_bytes(1, "big")
         self.count -= 1
-        pass
 
     def endWrite(self):
         if self.access!="wb":
@@ -58,7 +57,7 @@ class BitStream:
 
         if self.count != 7:
             #print(self.byte)
-            self.file.write(self.byte)
+            self.file.write(bytes(self.byte))
         
         self.file.close()
         print("Escrita de bits finalizada")

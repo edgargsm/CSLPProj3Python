@@ -3,7 +3,7 @@ import numpy as np
 import sys
 
 
-f = open(sys.argv[1],'rb')
+f = open('ducks_take_off_422_720p50.y4m','rb')
 status = f.readline()
 print(status)
 status = str(status)[2:-3].split()
@@ -59,7 +59,7 @@ while(True):
     frameyuv = cv2.merge((y,u,v))
 
 
-    cv2.imshow('frame',frameexp)
+    cv2.imshow('ducks_take_off_422_720p50',frameexp)
     f.readline()
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
