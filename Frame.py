@@ -13,7 +13,7 @@ class Frame:
         self.height = self.y.shape[0]
         self.width = self.y.shape[1]
 
-    def preditiveEncodingJPEG_LS(self, bitstream, golomb):
+    def preditiveEncodingJPEG_LS(self, golomb):
         #final_y = np.zeros(self.y.shape, dtype=int)
         #final_u = np.zeros(self.u.shape, dtype=int)
         #final_v = np.zeros(self.v.shape, dtype=int)
@@ -43,11 +43,11 @@ class Frame:
                     pred = max([a,b])
                 else:
                     pred = a+b-c
-                g_code = golomb.encode(self.y[lin,col] - pred)
+                golomb.encode(self.y[lin,col] - pred)
                 #print(g_code)
-                for b in range(len(g_code)):
+                #for b in range(len(g_code)):
                     #print(int(g_code[b]))
-                    bitstream.writeBit(int(g_code[b]))
+                    #bitstream.writeBit(int(g_code[b]))
                 #final_y[lin,col] = self.y[lin,col] - pred
 
         # Calcular o preditor de u
@@ -75,11 +75,11 @@ class Frame:
                     pred = max([a,b])
                 else:
                     pred = a+b-c
-                g_code = golomb.encode(self.u[lin,col] - pred)
+                golomb.encode(self.u[lin,col] - pred)
                 #print(g_code)
-                for b in range(len(g_code)):
+                #for b in range(len(g_code)):
                     #print(int(g_code[b]))
-                    bitstream.writeBit(int(g_code[b]))
+                    #bitstream.writeBit(int(g_code[b]))
                 #final_u[lin,col] = self.u[lin,col] - pred
 
         # Calcular o preditor de v
@@ -107,11 +107,11 @@ class Frame:
                     pred = max([int(a),int(b)])
                 else:
                     pred = int(a)+int(b)-int(c)
-                g_code = golomb.encode(self.v[lin,col] - pred)
+                golomb.encode(self.v[lin,col] - pred)
                 #print(g_code)
-                for b in range(len(g_code)):
+                #for b in range(len(g_code)):
                     #print(int(g_code[b]))
-                    bitstream.writeBit(int(g_code[b]))
+                    #bitstream.writeBit(int(g_code[b]))
                 #final_v[lin,col] = int(self.v[lin,col]) - int(pred)
 
         #return (final_y, final_u, final_v)

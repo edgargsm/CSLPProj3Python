@@ -2,10 +2,12 @@ import math
 
 class Golomb:
 
-    def __init__(self, m):
+    def __init__(self, m, bitStream=None):
         self.m = m
         self.b = math.ceil(math.log2(m))
         self.l = self.b-1
+
+        self.bitStream = bitStream
 
 
     def encode(self, n):
@@ -13,18 +15,30 @@ class Golomb:
             n=(-2*n)
         elif n>0:
             n = 2*n-1
-        result = ""
+        #result = ""
         q = (n//self.m)
-        r = n - q*self.m
-        l = self.b-1
+        r = n % self.m
+
         if r >= 2**self.b - self.m:
             r = r + 2**self.b - self.m
-            l = self.b
-        result = '1'*q+'0'
+            self.l = self.b
+
+        #result = '1'*q+'0'
+        
+        self.bitStream.writeBits([1]*q)
+        self.bitStream.writeBit(0)
+
         stringr = bin(r)[2:]
-        stringr = '0'*(l-len(stringr))+stringr
-        result = result + stringr
-        return result
+
+        #result += '0'*(self.l-len(stringr))
+        self.bitStream.writeBits([0] * (self.l-len(stringr)))
+        for i in stringr:
+            self.bitStream.writeBit(int(i))
+            #result += i
+
+        '''stringr = '0'*(self.l-len(stringr))+stringr
+        result = result + stringr'''
+        #return result
 
 
     def decode(self, encoded_num):

@@ -7,12 +7,12 @@ from Golomb import Golomb
 import sys
 
 video = Video(sys.argv[1])
-
-golomb = Golomb(5)
-
-params = "" + str(video.width) +" "+ str(video.height) +" "+ str(video.formato) +" "+ str(golomb.m) +"\n"
+m=5
+params = "" + str(video.width) +" "+ str(video.height) +" "+ str(video.formato) +" "+ str(m) +"\n"
 
 bitstream = BitStream("write_ducks.y4m",'wb', params)
+golomb = Golomb(m, bitstream)
+
 
 fnum=0
 
@@ -25,7 +25,7 @@ while True:
 
     frame = Frame(frame_read)
 
-    frame.preditiveEncodingJPEG_LS(bitstream, golomb)
+    frame.preditiveEncodingJPEG_LS(golomb)
     fnum+=1
     print(fnum)
 
