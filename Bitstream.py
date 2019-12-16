@@ -43,7 +43,9 @@ class BitStream:
 
         if self.count < 0:
             #print("Dump no ficheiro..")
-            self.file.write(bytes(self.byte))
+            print(bin(self.byte))
+            #print(bin(int.from_bytes(self.byte.to_bytes(8, 'little'), "little")))
+            self.file.write(self.byte.to_bytes(1, 'little'))
             self.byte = 0
             self.count = 7
 
@@ -57,7 +59,7 @@ class BitStream:
 
         if self.count != 7:
             #print(self.byte)
-            self.file.write(bytes(self.byte))
+            self.file.write(self.byte.to_bytes(1, 'little'))
         
         self.file.close()
         print("Escrita de bits finalizada")
