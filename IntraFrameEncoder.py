@@ -4,8 +4,9 @@ from Frame import Frame
 from Video import Video
 from Bitstream import BitStream
 from Golomb import Golomb
+import sys
 
-video = Video("ducks_take_off_420_720p50.y4m")
+video = Video(sys.argv[1])
 
 golomb = Golomb(5)
 
