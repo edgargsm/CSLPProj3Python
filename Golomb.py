@@ -60,9 +60,10 @@ class Golomb:
 
 
     def decode(self, encoded_num):
+        #print(encoded_num)
         q = 0
         i = 0
-        while encoded_num[i]!='0':
+        while i<len(encoded_num) and encoded_num[i]!='0':
             q+=1
             i+=1
         i+=1
