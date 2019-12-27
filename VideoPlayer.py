@@ -3,7 +3,7 @@ import numpy as np
 import sys
 
 
-f = open('ducks_take_off_422_720p50.y4m','rb')
+f = open(sys.argv[1],'rb')
 status = f.readline()
 print(status)
 status = str(status)[2:-3].split()

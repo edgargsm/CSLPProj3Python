@@ -24,7 +24,7 @@ class BitStream:
         
         if self.count < 0:
             self.byte = self.file.read(1)
-            print(bin(int.from_bytes(self.byte, "little")))
+            #print(bin(int.from_bytes(self.byte, "little")))
             if not self.byte:
                 print("Ficheiro já foi completamente lido.")
                 self.file.close()

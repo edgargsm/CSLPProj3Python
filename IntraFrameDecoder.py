@@ -8,10 +8,8 @@ import sys
 import time
 import math
 
-
-
-bitstream = BitStream(sys.argv[1],'rb', read_FirstLine=True)
-
+bitstream = BitStream("write_ducks.y4m",'rb', read_FirstLine=True)
+print(bitstream.first_line)
 params = str(bitstream.first_line)[2:-3].split(" ")
 
 width = int(params[0])
@@ -22,7 +20,7 @@ formato = params[2]
 
 m = int(params[3])
 
-golomb = Golomb(m)
+golomb = Golomb(m,bitstream)
 
 write_file = open("Decoded_File.y4m", 'wb')
 write_file.write(("YUV4MPEG2 W"+str(width)+" H"+str(height)+" F50:1 Ip A1:1").encode("utf-8"))
@@ -47,46 +45,56 @@ while True:
 
     for lin in range(y.shape[0]):
         for col in range(y.shape[1]):
-            rq = bitstream.readBit()
-            q = str(rq)
-            while rq==1:
-                rq = bitstream.readBit()
-                q = q + str(rq)
-            r_arr = bitstream.readBits(r_size)
-            #print(r_arr)
+            '''
             r = ''
-            for i in r_arr:
-                r = r + str(i)
-            #print(r)
-            dec = golomb.decode(q+r)
+            while bitstream.readBit() != 0:
+                r += '1'
+            
+            r +='0'
+            for i in bitstream.readBits(r_size):
+                r += str(i)
+
+            print([1 if i == '1' else 0 for i in list(r)])
+            dec = golomb.decode(r)
+            print(dec)
+            '''
+            dec = golomb.decode()
+            print(dec)
+
             y[lin, col] = np.uint8(dec)
     
     for lin in range(u.shape[0]):
         for col in range(u.shape[1]):
-            rq = bitstream.readBit()
-            q = str(rq)
-            while rq==1:
-                rq = bitstream.readBit()
-                q = q + str(rq)
-            r_arr = bitstream.readBits(r_size)
-            r = ''
-            for i in r_arr:
-                r = r + str(i)
-            dec = golomb.decode(q+r)
+            # rq = bitstream.readBit()
+            # q = str(rq)
+            # while rq==1:
+            #     rq = bitstream.readBit()
+            #     q = q + str(rq)
+            # r_arr = bitstream.readBits(r_size)
+            # r = ''
+            # for i in r_arr:
+            #     r = r + str(i)
+            # dec = golomb.decode(q+r)
+            dec = golomb.decode()
+            print(dec)
+
             u[lin, col] = np.uint8(dec)
 
     for lin in range(v.shape[0]):
         for col in range(v.shape[1]):
-            rq = bitstream.readBit()
-            q = str(rq)
-            while rq==1:
-                rq = bitstream.readBit()
-                q = q + str(rq)
-            r_arr = bitstream.readBits(r_size)
-            r = ''
-            for i in r_arr:
-                r = r + str(i)
-            dec = golomb.decode(q+r)
+            # rq = bitstream.readBit()
+            # q = str(rq)
+            # while rq==1:
+            #     rq = bitstream.readBit()
+            #     q = q + str(rq)
+            # r_arr = bitstream.readBits(r_size)
+            # r = ''
+            # for i in r_arr:
+            #     r = r + str(i)
+            # dec = golomb.decode(q+r)
+            dec = golomb.decode()
+            print(dec)
+
             v[lin, col] = np.uint8(dec)
     
     y.tofile(write_file)
