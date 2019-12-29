@@ -61,12 +61,12 @@ class Golomb:
         while self.bitStream.readBit() != 0:
             q += 1
         
-        r = ''
-        for i in self.bitStream.readBits(self.b):
-            r += str(i)
-        
-        r = int(r,2)
+        # r = ''
+        # for i in self.bitStream.readBits(self.b):
+        #     r += str(i)
+        # r = int(r,2)
 
+        r=self.bitStream.readBits(self.b)   #bitstream returns number
         n = r+q*self.m
         if n%2==0:
             n = int(n/-2)

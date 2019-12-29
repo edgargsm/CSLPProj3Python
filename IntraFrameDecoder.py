@@ -59,8 +59,6 @@ while True:
             print(dec)
             '''
             dec = golomb.decode()
-            print(dec)
-
             y[lin, col] = np.uint8(dec)
     
     for lin in range(u.shape[0]):
@@ -76,7 +74,6 @@ while True:
             #     r = r + str(i)
             # dec = golomb.decode(q+r)
             dec = golomb.decode()
-            print(dec)
 
             u[lin, col] = np.uint8(dec)
 
@@ -93,7 +90,6 @@ while True:
             #     r = r + str(i)
             # dec = golomb.decode(q+r)
             dec = golomb.decode()
-            print(dec)
 
             v[lin, col] = np.uint8(dec)
     

@@ -72,16 +72,19 @@ class BitStream:
             print("Não foi possivel ler bit porque o acesso ao ficheiro foi de escrita")
             return
 
-        arr = []
+        num = 0
+        for i in range(n-1,-1,-1):
 
-        for i in range(n):
             bit = self.readBit()
             if bit==None:
                 print("Não foi possivel ler o numero de bits pedidos")
                 break
-            arr.append(bit)
+            
 
-        return arr
+            val =bit << i & 2**i
+            num += val
+
+        return num
 
     def writeBits(self, arr):
         
