@@ -1,7 +1,9 @@
 from Golomb import Golomb
 import sys
 
-g = Golomb(5)
+bt = BitStream("text1.txt", "wb",init_message = "Ola\n")
+
+g = Golomb(5, bt)
 try:
     #encoded = g.encode(int(sys.argv[1]))
     encoded2 = g.encode2(int(sys.argv[1]))

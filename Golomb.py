@@ -9,35 +9,6 @@ class Golomb:
 
         self.bitStream = bitStream
 
-
-    def encode(self, n):
-        if n<0:
-            n=(-2*n)
-        elif n>0:
-            n = 2*n-1
-        #result = ""
-        q = (n//self.m)
-        r = n % self.m
-
-        if r >= 2**self.b - self.m:
-            r = r + 2**self.b - self.m
-            self.l = self.b
-
-        #result = '1'*q+'0'
-        stringr = bin(r)[2:]
-
-        self.bitStream.writeBits([1]*q + [0] + [0] * (self.l-len(stringr)))
-
-
-        #result += '0'*(self.l-len(stringr))
-        for i in stringr:
-            self.bitStream.writeBit(int(i))
-            #result += i
-
-        '''stringr = '0'*(self.l-len(stringr))+stringr
-        result = result + stringr'''
-        #return result
-    
     def encode2(self, n):
         if n<0:
             n=(-2*n)
@@ -45,6 +16,20 @@ class Golomb:
             n = 2*n-1
         #result = ""
         r = n % self.m
+
+        for i in range(n//self.m):
+            self.bitStream.writeBit(1)
+        self.bitStream.writeBit(0)
+
+        self.bitStream.writeBits(r,self.b)
+
+        '''
+        if r >= 2**self.b - self.m:
+            r = r + 2**self.b - self.m
+            self.l = self.b
+        '''
+
+        '''
         #result = '1'*q+'0'
         helper = bin(r)[2:]
         while len(helper) < self.b:
@@ -52,7 +37,7 @@ class Golomb:
 
         self.bitStream.writeBits([1]*(n//self.m) + [0] + [1 if digit=='1' else 0 for digit in helper])
         #print([1]*(n//self.m) + [0] + [1 if digit=='1' else 0 for digit in helper])
-        #return '1' *(n//self.m) + '0' + bin(r)[2:]
+        #return '1' *(n//self.m) + '0' + bin(r)[2:]'''
 
     def decode(self, encoded_num=None):
         #print(encoded_num)

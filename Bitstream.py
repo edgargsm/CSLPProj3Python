@@ -86,11 +86,14 @@ class BitStream:
 
         return num
 
-    def writeBits(self, arr):
+    def writeBits(self, n,nbits):
         
         if self.access!="wb":
             print("Não foi possivel escrever o bit porque o acesso ao ficheiro foi de escrita")
             return None
-
-        for i in arr:
-            self.writeBit(i)
+        
+        """for i in arr:
+            self.writeBit(i)"""
+        
+        for i in range(nbits-1, -1,-1):
+            self.writeBit(n >> i & 1)
