@@ -11,7 +11,7 @@ video = Video(sys.argv[1])
 m=5
 params = "" + str(video.width) +" "+ str(video.height) +" "+ str(video.formato) +" "+ str(m) +"\n"
 
-bitstream = BitStream("write_ducks.y4m",'wb', params)
+bitstream = BitStream(sys.argv[2],'wb', params)
 golomb = Golomb(m, bitstream)
 
 

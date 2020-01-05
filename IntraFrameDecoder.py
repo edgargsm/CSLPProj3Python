@@ -8,7 +8,7 @@ import sys
 import time
 import math
 
-bitstream = BitStream("write_ducks.y4m",'rb', read_FirstLine=True)
+bitstream = BitStream(sys.argv[1],'rb', read_FirstLine=True)
 print(bitstream.first_line)
 params = str(bitstream.first_line)[2:-3].split(" ")
 
@@ -22,7 +22,7 @@ m = int(params[3])
 
 golomb = Golomb(m,bitstream)
 
-write_file = open("Decoded_File.y4m", 'wb')
+write_file = open(sys.argv[2], 'wb')
 write_file.write(("YUV4MPEG2 W"+str(width)+" H"+str(height)+" F50:1 Ip A1:1").encode("utf-8"))
 
 r_size = math.ceil(math.log2(m))
