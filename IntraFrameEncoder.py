@@ -14,9 +14,7 @@ params = "" + str(video.width) +" "+ str(video.height) +" "+ str(video.formato) 
 bitstream = BitStream(sys.argv[2],'wb', params)
 golomb = Golomb(m, bitstream)
 
-
 fnum=0
-
 while True:
     t = time.time()
     frame_read = video.getFrame()
@@ -40,6 +38,6 @@ while True:
                 #    #print(int(g_code[b]))
                 #    bitstream.writeBit(int(g_code[b]))
     print(time.time()-t)
-bitstream.endWrite()
 
+bitstream.endWrite()
 

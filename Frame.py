@@ -25,13 +25,13 @@ class Frame:
                     b = 127
                     c = 127
                 elif col-1<0:
-                    a = int(self.y[lin,col-1])
-                    b = 127
-                    c = 127
-                elif lin-1<0:
                     a = 127
                     b = int(self.y[lin-1,col])
-                    c = 127  
+                    c = 127
+                elif lin-1<0:
+                    a = int(self.y[lin,col-1])
+                    b = 127
+                    c = 127 
                 else:
                     a = int(self.y[lin,col-1])
                     b = int(self.y[lin-1,col])
@@ -57,13 +57,13 @@ class Frame:
                     b = 127
                     c = 127
                 elif col-1<0:
-                    a = int(self.u[lin,col-1])
-                    b = 127
-                    c = 127
-                elif lin-1<0:
                     a = 127
                     b = int(self.u[lin-1,col])
                     c = 127
+                elif lin-1<0:
+                    a = int(self.u[lin,col-1])
+                    b = 127
+                    c = 127 
                 else:
                     a = int(self.u[lin,col-1])
                     b = int(self.u[lin-1,col])
@@ -90,13 +90,13 @@ class Frame:
                     b = 127
                     c = 127
                 elif col-1<0:
-                    a = int(self.v[lin,col-1])
-                    b = 127
-                    c = 127
-                elif lin-1<0:
                     a = 127
                     b = int(self.v[lin-1,col])
                     c = 127
+                elif lin-1<0:
+                    a = int(self.v[lin,col-1])
+                    b = 127
+                    c = 127 
                 else:
                     a = int(self.v[lin,col-1])
                     b = int(self.v[lin-1,col])
@@ -114,7 +114,6 @@ class Frame:
                     #print(int(g_code[b]))
                     #bitstream.writeBit(int(g_code[b]))
                 final_v[lin,col] = int(self.v[lin,col]) - int(pred)
-
         return (final_y, final_u, final_v)
 
 

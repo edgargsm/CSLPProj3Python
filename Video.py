@@ -7,7 +7,6 @@ class Video:
     def __init__(self,file):
         self.f = open(file,'rb')
         self.status = self.f.readline()
-        #print(status)
         self.status = str(self.status)[2:-3].split()
         self.f.readline() #Ler Frame
         self.width = int(self.status[1][1:])

@@ -12,7 +12,6 @@ bt1.writeBit(1)
 bt1.writeBit(0)
 bt1.writeBit(1)
 bt1.writeBit(1)
-
 bt1.writeBits(7,3)  #111
 
 bt1.writeBit(1)

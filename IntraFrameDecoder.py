@@ -7,7 +7,7 @@ from Golomb import Golomb
 import sys
 import time
 import math
-
+import os
 bitstream = BitStream(sys.argv[1],'rb', read_FirstLine=True)
 print(bitstream.first_line)
 params = str(bitstream.first_line)[2:-3].split(" ")
@@ -21,9 +21,9 @@ formato = params[2]
 m = int(params[3])
 
 golomb = Golomb(m,bitstream)
-
-write_file = open(sys.argv[2], 'wb')
-write_file.write(("YUV4MPEG2 W"+str(width)+" H"+str(height)+" F50:1 Ip A1:1").encode("utf-8"))
+bt2 = BitStream(sys.argv[2],'wb', "YUV4MPEG2 W"+str(width)+" H"+str(height)+" F50:1 Ip A1:1\n")
+#write_file = open(sys.argv[2], 'wb')
+#write_file.write(("YUV4MPEG2 W"+str(width)+" H"+str(height)+" F50:1 Ip A1:1\n").encode("utf-8"))
 
 r_size = math.ceil(math.log2(m))
 
@@ -36,8 +36,10 @@ elif formato == '420':
 
 stop = 0
 numf = 0
+bt2.writeStuff("Frame\n")
 
-while True:
+while os.stat(sys.argv[1]).st_size != 0:
+
     t = time.time()
     y = np.zeros((height, width), dtype=int)
     u = np.zeros(uv_shape, dtype=int)
@@ -45,63 +47,106 @@ while True:
 
     for lin in range(y.shape[0]):
         for col in range(y.shape[1]):
-            '''
-            r = ''
-            while bitstream.readBit() != 0:
-                r += '1'
-            
-            r +='0'
-            for i in bitstream.readBits(r_size):
-                r += str(i)
 
-            print([1 if i == '1' else 0 for i in list(r)])
-            dec = golomb.decode(r)
-            print(dec)
-            '''
+            if col-1<0 and lin-1<0:
+                a = 127
+                b = 127
+                c = 127
+            elif col-1<0:
+                a = 127
+                b = int(y[lin-1,col])
+                c = 127
+            elif lin-1<0:
+                a = int(y[lin,col-1])
+                b = 127
+                c = 127  
+            else:
+                a = int(y[lin,col-1])
+                b = int(y[lin-1,col])
+                c = int(y[lin-1,col-1])
+            if c >= max([a,b]):
+                pred = min([a,b])
+            elif c <= min([a,b]):
+                pred = max([a,b])
+            else:
+                pred = a+b-c
             dec = golomb.decode()
-            y[lin, col] = np.uint8(dec)
+            y[lin, col] = np.uint8(dec+pred)
+            bt2.writeBits(dec+pred,8)
+
     
     for lin in range(u.shape[0]):
         for col in range(u.shape[1]):
-            # rq = bitstream.readBit()
-            # q = str(rq)
-            # while rq==1:
-            #     rq = bitstream.readBit()
-            #     q = q + str(rq)
-            # r_arr = bitstream.readBits(r_size)
-            # r = ''
-            # for i in r_arr:
-            #     r = r + str(i)
-            # dec = golomb.decode(q+r)
+
+            if col-1<0 and lin-1<0:
+                a = 127
+                b = 127
+                c = 127
+            elif col-1<0:
+                a = 127
+                b = int(u[lin-1,col])
+                c = 127
+            elif lin-1<0:
+                a = int(u[lin,col-1])
+                b = 127
+                c = 127    
+            else:
+                a = int(u[lin,col-1])
+                b = int(u[lin-1,col])
+                c = int(u[lin-1,col-1])
+            if c >= max([a,b]):
+                pred = min([a,b])
+            elif c <= min([a,b]):
+                pred = max([a,b])
+            else:
+                pred = a+b-c
             dec = golomb.decode()
 
-            u[lin, col] = np.uint8(dec)
+            u[lin, col] = np.uint8(dec+pred)
+            bt2.writeBits(dec+pred,8)
+
 
     for lin in range(v.shape[0]):
         for col in range(v.shape[1]):
-            # rq = bitstream.readBit()
-            # q = str(rq)
-            # while rq==1:
-            #     rq = bitstream.readBit()
-            #     q = q + str(rq)
-            # r_arr = bitstream.readBits(r_size)
-            # r = ''
-            # for i in r_arr:
-            #     r = r + str(i)
-            # dec = golomb.decode(q+r)
-            dec = golomb.decode()
 
-            v[lin, col] = np.uint8(dec)
-    
-    y.tofile(write_file)
-    u.tofile(write_file)
-    v.tofile(write_file)
+            if col-1<0 and lin-1<0:
+                a = 127
+                b = 127
+                c = 127
+            elif col-1<0:
+                a = 127
+                b = int(v[lin-1,col])
+                c = 127
+            elif lin-1<0:
+                a = int(v[lin,col-1])
+                b = 127
+                c = 127    
+            else:
+                a = int(v[lin,col-1])
+                b = int(v[lin-1,col])
+                c = int(v[lin-1,col-1])
+            if c >= max([a,b]):
+                pred = min([a,b])
+            elif c <= min([a,b]):
+                pred = max([a,b])
+            else:
+                pred = a+b-c
+            dec = golomb.decode()
+            v[lin, col] = np.uint8(dec+pred)
+            bt2.writeBits(dec+pred,8)
+
+
+
+
+    #y.tofile(write_file)
+    #u.tofile(write_file)
+    #v.tofile(write_file)
     numf=numf+1
     print(numf)
     print(time.time()-t)
-    if numf>=500:
-        break
-    write_file.write("Frame\n".encode("utf-8"))
-    
 
-write_file.close()
+    #write_file.write("Frame\n".encode("utf-8"))
+    bt2.writeStuff("Frame\n")
+
+bt2.endWrite()
+#write_file.close()

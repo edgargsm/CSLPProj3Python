@@ -14,7 +14,7 @@ class BitStream:
         if access == "wb":
             self.count = 7
         self.access = access
-        self.buffer = bytearray(b'')
+        #self.buffer = bytearray(b'')
 
     def readBit(self):
         if self.access!="rb":
@@ -46,8 +46,8 @@ class BitStream:
             #print("Dump no ficheiro..")
             #print(bin(self.byte))
             #print(bin(int.from_bytes(self.byte.to_bytes(8, 'little'), "little")))
-            #self.file.write(self.byte.to_bytes(1, 'little'))
-            self.buffer.append(self.byte)
+            self.file.write(self.byte.to_bytes(1, 'little'))
+            #self.buffer.append(self.byte)
             self.byte = 0
             self.count = 7
 
@@ -59,7 +59,7 @@ class BitStream:
         if self.access!="wb":
             print("O modo de acesso não foi o de escrita.")
 
-        self.file.write(self.buffer)
+        #self.file.write(self.buffer)
         if self.count != 7:
             #print(self.byte)
             self.file.write(self.byte.to_bytes(1, 'little'))
@@ -97,3 +97,6 @@ class BitStream:
         
         for i in range(nbits-1, -1,-1):
             self.writeBit(n >> i & 1)
+    
+    def writeStuff(self,message):
+        self.file.write(bytes(message,'utf-8'))

@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import sys
-
+import time
 
 f = open(sys.argv[1],'rb')
 status = f.readline()
