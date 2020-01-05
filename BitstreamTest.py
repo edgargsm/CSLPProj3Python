@@ -13,7 +13,7 @@ bt1.writeBit(0)
 bt1.writeBit(1)
 bt1.writeBit(1)
 
-bt1.writeBits([1,0,0,0,0,0,0,1])
+bt1.writeBits(7,3)  #111
 
 bt1.writeBit(1)
 bt1.writeBit(1)
@@ -33,15 +33,7 @@ print(bt.readBit())
 print(bt.readBit())
 print(bt.readBit())
 print("second byte")
-print(bt.readBit())
-print(bt.readBit())
-print(bt.readBit())
-print(bt.readBit())
-print(bt.readBit())
-print(bt.readBit())
-print(bt.readBit())
-print(bt.readBit())
-print("third byte")
+
 print(bt.readBits(8))
 
 print(bt.first_line)
