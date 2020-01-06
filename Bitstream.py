@@ -43,9 +43,7 @@ class BitStream:
             return None
 
         if self.count < 0:
-            #print("Dump no ficheiro..")
-            #print(bin(self.byte))
-            #print(bin(int.from_bytes(self.byte.to_bytes(8, 'little'), "little")))
+
             self.file.write(self.byte.to_bytes(1, 'little'))
             #self.buffer.append(self.byte)
             self.byte = 0

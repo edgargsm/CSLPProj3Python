@@ -39,12 +39,13 @@ numf = 0
 bt2.writeStuff("Frame\n")
 
 while os.stat(sys.argv[1]).st_size != 0:
+#while numf < 10:
 
     t = time.time()
     y = np.zeros((height, width), dtype=int)
     u = np.zeros(uv_shape, dtype=int)
     v = np.zeros(uv_shape, dtype=int)
-
+    
     for lin in range(y.shape[0]):
         for col in range(y.shape[1]):
 
@@ -70,8 +71,8 @@ while os.stat(sys.argv[1]).st_size != 0:
                 pred = max([a,b])
             else:
                 pred = a+b-c
-            dec = golomb.decode()
-            y[lin, col] = np.uint8(dec+pred)
+            dec = golomb.decode()       #get prediction from file
+            y[lin, col] = dec+pred
             bt2.writeBits(dec+pred,8)
 
     
@@ -101,8 +102,7 @@ while os.stat(sys.argv[1]).st_size != 0:
             else:
                 pred = a+b-c
             dec = golomb.decode()
-
-            u[lin, col] = np.uint8(dec+pred)
+            u[lin, col] = dec+pred
             bt2.writeBits(dec+pred,8)
 
 
@@ -132,15 +132,10 @@ while os.stat(sys.argv[1]).st_size != 0:
             else:
                 pred = a+b-c
             dec = golomb.decode()
-            v[lin, col] = np.uint8(dec+pred)
+            v[lin, col] = dec+pred
             bt2.writeBits(dec+pred,8)
 
 
-
-
-    #y.tofile(write_file)
-    #u.tofile(write_file)
-    #v.tofile(write_file)
     numf=numf+1
     print(numf)
     print(time.time()-t)

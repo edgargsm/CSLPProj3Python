@@ -31,12 +31,11 @@ while True:
     for f in range(len(encodedFrame)):
         for line in range(encodedFrame[f].shape[0]):
             for col in range(encodedFrame[f].shape[1]):
-                pix = int(encodedFrame[f][line,col])
-                golomb.encode2(pix) 
-                #print(g_code)
-                #for b in range(len(g_code)):
-                #    #print(int(g_code[b]))
-                #    bitstream.writeBit(int(g_code[b]))
+                pix = int(encodedFrame[f][line,col])    #prediction
+                golomb.encode2(pix)                     #uses bitstream to save
+
+#    if fnum == 10:
+#        break
     print(time.time()-t)
 
 bitstream.endWrite()
